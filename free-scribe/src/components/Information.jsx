@@ -40,7 +40,7 @@ export default function Information(props) {
         </button>
       </div>
       {tab === "transcription" ? (
-        <Transcription {...props}></Transcription>
+        <Transcription output={output}></Transcription>
       ) : (
         <Translation></Translation>
       )}

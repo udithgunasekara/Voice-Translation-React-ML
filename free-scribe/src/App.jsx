@@ -5,6 +5,7 @@ import FileDisplay from "./components/FileDisplay";
 import Information from "./components/Information";
 import Transcribing from "./components/Transcribing";
 import { MessageTypes } from "./Utils/presets";
+import LandingPage from "./components/LandingPage";
 
 function App() {
   const [file, setFile] = useState(null);
@@ -18,7 +19,7 @@ function App() {
   function handleAudiReset() {
     setFile(null);
     setAudioStream(null);
-    console.log("User click RESET buttton");
+    console.log("User click RESET button");
   }
 
   const worker = useRef(null);
@@ -62,8 +63,8 @@ function App() {
   async function readAudioFrom(file) {
     const sampling_rate = 16000;
     const audioCTX = new AudioContext({ sampleRate: sampling_rate });
-    const respose = await file.arrayBuffer();
-    const decoded = await audioCTX.decodeAudioData(respose);
+    const response = await file.arrayBuffer();
+    const decoded = await audioCTX.decodeAudioData(response);
     const audio = decoded.getChannelData(0);
     return audio;
   }
@@ -87,8 +88,22 @@ function App() {
     console.log("Here the function is working");
   }
 
+  const backgroundImageStyle = {
+    backgroundImage:
+      "linear-gradient(rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.0)), url('https://images.unsplash.com/photo-1652909865322-1515df3a2efd?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    width: "97%",
+    marginTop: "1.5%",
+    height: "710px", // Add the height property here
+    borderRadius: "10px", // Add the borderRadius property here
+  };
+
   return (
-    <div className="flex flex-col max-w-[1000px] mx-auto w-full">
+    <div
+      className="flex flex-col max-w-[100%] mx-auto w-full"
+      style={backgroundImageStyle}>
       <section className="min-h-screen flex flex-col">
         <Header />
 
@@ -103,7 +118,7 @@ function App() {
             file={file}
             audioStream={audioStream}></FileDisplay>
         ) : (
-          <HomePage setFile={setFile} setAudioStream={setAudioStream} />
+          <LandingPage setFile={setFile} setAudioStream={setAudioStream} />
         )}
       </section>
       <footer></footer>
