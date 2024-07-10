@@ -5,5 +5,5 @@ export default function Transcription(props) {
   console.log(output);
   const finalText = output.map((val) => val.text);
 
-  return <div>{finalText}</div>;
+  return <>" {finalText} "</>;
 }

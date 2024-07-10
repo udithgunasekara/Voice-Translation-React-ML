@@ -88,16 +88,18 @@ function App() {
     console.log("Here the function is working");
   }
 
+  // https://images.unsplash.com/photo-1652909865322-1515df3a2efd?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
+
   const backgroundImageStyle = {
     backgroundImage:
-      "linear-gradient(rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.0)), url('https://images.unsplash.com/photo-1652909865322-1515df3a2efd?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+      "linear-gradient(rgba(0, 0, 0, 0.5), rgba(243, 246, 244, 0.1)), url('https://images.unsplash.com/photo-1652909865322-1515df3a2efd?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
     width: "97%",
     marginTop: "1.5%",
-    height: "710px", // Add the height property here
-    borderRadius: "10px", // Add the borderRadius property here
+    height: "710px",
+    borderRadius: "10px",
   };
 
   return (
