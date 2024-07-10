@@ -1,6 +1,3 @@
-Sure, here's the updated README with the additional information:
-
----
 
 # Voice-Translation-React-ML
 
