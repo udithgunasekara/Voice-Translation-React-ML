@@ -1,7 +1,7 @@
 
-# Voice-Translation-React-ML
+# VOXTEXT
 
-Welcome to Voice-Translation-React-ML! This application allows users to record or upload any voice clip, and it will transcribe the audio into English using advanced machine learning technology.
+Welcome to VOXTEXT! This application allows users to record or upload any voice clip, and it will transcribe the audio into English using advanced machine learning technology.
 
 ## Key Features
 
