@@ -14,6 +14,7 @@ export default function LandingPage(props) {
 
   const mimeType = "audio/webm";
 
+  //Start recording
   async function startRecording() {
     let tempStream;
 
@@ -36,7 +37,9 @@ export default function LandingPage(props) {
     mediaRecorder.current = media;
 
     mediaRecorder.current.start();
+
     let localAudioChunks = [];
+
     mediaRecorder.current.ondataavailable = (event) => {
       if (typeof event.data === "undefined") {
         return;
@@ -49,6 +52,7 @@ export default function LandingPage(props) {
     setAudioChunks(localAudioChunks);
   }
 
+  //Stop recording
   async function stopRecording() {
     setRecordingStatus("inactive");
     console.log("Stop recording");

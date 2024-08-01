@@ -16,6 +16,7 @@ function App() {
   const [downloading, setDownloading] = useState(false);
   const isAudioAvailable = file || audioStream;
 
+  //clear audio reseting getter filedisplay
   function handleAudiReset() {
     setFile(null);
     setAudioStream(null);
@@ -41,7 +42,7 @@ function App() {
           break;
         case "LOADING":
           setLoading(true);
-          console.log("LOADING");
+          console.log("LOADING hutttooooo");
           break;
         case "RESULT":
           setOutput(e.data.results);
@@ -63,21 +64,25 @@ function App() {
   async function readAudioFrom(file) {
     const sampling_rate = 16000;
     const audioCTX = new AudioContext({ sampleRate: sampling_rate });
-    const response = await file.arrayBuffer();
-    const decoded = await audioCTX.decodeAudioData(response);
+    const response = await file.arrayBuffer(); //for binary data processing
+    const decoded = await audioCTX.decodeAudioData(response); //decording the audio data using bufferarry and audioCTX frame
     const audio = decoded.getChannelData(0);
     return audio;
   }
 
+  //Handle form submission and start whisper worker
   async function handleFormSubmission() {
     console.log("handle form submission INTO");
-    if (!file && !audioStream) {
-      return;
-    }
+
+    // if (!file && !audioStream) {
+    //   return;
+    // }
+
     let audio = await readAudioFrom(file ? file : audioStream);
     const model_name = "openai/whisper-tiny.en";
 
     worker.current.postMessage({
+      //passing the audio and model for the whisperworker.js
       type: MessageTypes.INFERENCE_REQUEST,
       audio,
       model_name,
@@ -110,9 +115,9 @@ function App() {
         <Header />
 
         {output ? (
-          <Information output={output} />
+          <Information output={output} /> //Output transfering here, get from whisper => To transcription (child) => To Information (Parent)
         ) : loading ? (
-          <Transcribing />
+          <Transcribing /> //No props transfering
         ) : isAudioAvailable ? (
           <FileDisplay
             handleAudiReset={handleAudiReset}
@@ -122,6 +127,7 @@ function App() {
         ) : (
           <LandingPage setFile={setFile} setAudioStream={setAudioStream} />
         )}
+        {printConsole()}
       </section>
       <footer></footer>
     </div>

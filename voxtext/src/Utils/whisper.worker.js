@@ -1,13 +1,15 @@
 import { pipeline, env } from "@xenova/transformers";
-env.allowLocalModels = false;
+env.allowLocalModels = false; //disble remote models
 import { MessageTypes } from "./presets";
 
 class MyTranscriptionPipeline {
-  static task = "automatic-speech-recognition";
+  static task = "automatic-speech-recognition"; // getting AutomaticSpeechRecognitionPipeline
   static model = "openai/whisper-tiny.en";
   static instance = null;
 
+  //fin
   static async getInstance(progress_callback = null) {
+    //using singleton pattern create pipeLine instance. For increase effececy
     if (this.instance === null) {
       this.instance = await pipeline(this.task, null, { progress_callback });
     }
@@ -17,14 +19,16 @@ class MyTranscriptionPipeline {
 }
 
 self.addEventListener("message", async (event) => {
+  //Web Worker
   const { type, audio } = event.data;
   if (type === MessageTypes.INFERENCE_REQUEST) {
+    //controller unit. worker catching and handling
     await transcribe(audio);
   }
 });
 
 async function transcribe(audio) {
-  sendLoadingMessage("loading");
+  sendLoadingMessage("loading"); // send loading message to the app for recongnition
 
   let pipeline;
 
@@ -51,7 +55,7 @@ async function transcribe(audio) {
   });
   generationTracker.sendFinalResult();
 }
-
+//fin
 async function load_model_callback(data) {
   const { status } = data;
   if (status === "progress") {
@@ -60,6 +64,7 @@ async function load_model_callback(data) {
   }
 }
 
+//fin
 function sendLoadingMessage(status) {
   self.postMessage({
     type: MessageTypes.LOADING,
@@ -67,6 +72,7 @@ function sendLoadingMessage(status) {
   });
 }
 
+//fin
 async function sendDownloadingMessage(file, progress, loaded, total) {
   self.postMessage({
     type: MessageTypes.DOWNLOADING,
@@ -89,10 +95,12 @@ class GenerationTracker {
     this.callbackFunctionCounter = 0;
   }
 
+  //fin
   sendFinalResult() {
     self.postMessage({ type: MessageTypes.INFERENCE_DONE });
   }
 
+  //fin
   callbackFunction(beams) {
     this.callbackFunctionCounter += 1;
     if (this.callbackFunctionCounter % 10 !== 0) {
@@ -113,6 +121,7 @@ class GenerationTracker {
     createPartialResultMessage(result);
   }
 
+  //fin
   chunkCallback(data) {
     this.chunks.push(data);
     const [text, { chunks }] = this.pipeline.tokenizer._decode_asr(
@@ -154,6 +163,7 @@ class GenerationTracker {
   }
 }
 
+//fin
 function createResultMessage(results, isDone, completedUntilTimestamp) {
   self.postMessage({
     type: MessageTypes.RESULT,
@@ -163,6 +173,7 @@ function createResultMessage(results, isDone, completedUntilTimestamp) {
   });
 }
 
+//fin
 function createPartialResultMessage(result) {
   self.postMessage({
     type: MessageTypes.RESULT_PARTIAL,
