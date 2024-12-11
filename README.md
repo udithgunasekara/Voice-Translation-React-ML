@@ -22,7 +22,7 @@ Before you begin, ensure you have the following installed:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/Voice-Translation-React-ML.git
+   git clone https://github.com/udithgunasekara/Voice-Translation-React-ML.git
    cd Voice-Translation-React-ML
    cd voxText
    ```
@@ -44,13 +44,13 @@ npm start dev
 1. **Record Voice:** Click on the "Record" button to start recording your voice. Click again to stop recording.
 2. **Upload Voice Clip:** Click on the "Upload" button to select and upload a voice clip from your device.
 3. **Transcription:** Once the recording or upload is complete, the app will process the audio and display the transcription in English.
-4. **No Backend:** No need backend infrastructure
+4. **No Backend:** No need backend infrastructure. Client Side Rending implementations
 
 ## Technology Stack
 
 - **Frontend:** React
 - **Styling:** Tailwind CSS
-- **Machine Learning Model:** OpenAI Whisper-tiny
+- **Machine Learning Model:** OpenAI Whisper-tiny (def)
 - **Dependencies:** 
   - Tailwind CSS
   - xenova/transformers
