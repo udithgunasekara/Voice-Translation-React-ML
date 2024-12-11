@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Transcription from "./Transcription";
 import Translation from "./Translation";
 
+//This is the page showiing the transcription about your voice (voice --> text)
 export default function Information(props) {
   const { output } = props;
   console.log(output);
@@ -44,7 +45,7 @@ export default function Information(props) {
         <div className="text-2xl">
           {" "}
           {tab === "transcription" ? (
-            <Transcription output={output} />
+            <Transcription output={output} /> // show to the output
           ) : (
             <Translation />
           )}

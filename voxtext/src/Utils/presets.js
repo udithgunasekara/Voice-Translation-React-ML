@@ -1,6 +1,7 @@
-export const MessageTypes = {
+export const MessageTypes = { //creating a object
   DOWNLOADING: "DOWNLOADING",
   LOADING: "LOADING",
+  SUCCESS: "SUCCESS",
   RESULT: "RESULT",
   RESULT_PARTIAL: "RESULT_PARTIAL",
   INFERENCE_REQUEST: "INFERENCE_REQUEST",

@@ -38,7 +38,7 @@ export default function HomePage(props) {
       if (typeof event.data === "undefined") {
         return;
       }
-      if (event.data.size === 0) {
+      if (event.data.size === 0) { //check the silence and 
         return;
       }
       localAudioChunks.push(event.data);
@@ -53,8 +53,8 @@ export default function HomePage(props) {
     mediaRecorder.current.stop();
     mediaRecorder.current.onstop = () => {
       const audioBlob = new Blob(audioChunks, { type: mimeType });
-      setAudioStream(audioBlob);
-      setAudioChunks([]);
+      setAudioStream(audioBlob); //pass the value as a prope
+      setAudioChunks([]); //clean up the audio
       setDuration(0);
     };
   }

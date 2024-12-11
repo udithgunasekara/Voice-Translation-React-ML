@@ -26,11 +26,12 @@ function App() {
   const worker = useRef(null);
 
   useEffect(() => {
+    //creating new worker if not avaliable
     if (!worker.current) {
       worker.current = new Worker(
-        new URL("./Utils/whisper.worker.js", import.meta.url),
+        new URL("./Utils/whisper.worker.js", import.meta.url), // Loading your file for the tast
         {
-          type: "module",
+          type: "module", // when to run background script separately from the main page
         }
       );
     }
@@ -42,12 +43,25 @@ function App() {
           break;
         case "LOADING":
           setLoading(true);
-          console.log("LOADING hutttooooo");
+          console.log("LOADING");
           break;
+          //updateing success status
+        case "SUCCESS":
+          setLoading(true);
+          console.log("SUCCESS");
+          break;
+
+
         case "RESULT":
           setOutput(e.data.results);
           console.log(e.data.results);
           break;
+
+        case "RESULT_PARTIAL":
+          setOutput(e.data.results);
+          console.log("RESULT_PARTIAL"+ e.data.results);
+          break;
+        
         case "INFERENCE_DONE":
           setFinished(true);
           console.log("DONE");
@@ -61,10 +75,13 @@ function App() {
       worker.current.removeEventListener("message", onMessageRecieved);
   });
 
+  //const x= file.arrayBuffer()
+
+  //web Audio API for audio data processing
   async function readAudioFrom(file) {
-    const sampling_rate = 16000;
+    const sampling_rate = 16000;  //16kHz
     const audioCTX = new AudioContext({ sampleRate: sampling_rate });
-    const response = await file.arrayBuffer(); //for binary data processing
+    const response = await file.arrayBuffer(); //for binary data processing ///await for the file if it too large to load
     const decoded = await audioCTX.decodeAudioData(response); //decording the audio data using bufferarry and audioCTX frame
     const audio = decoded.getChannelData(0);
     return audio;
@@ -73,10 +90,6 @@ function App() {
   //Handle form submission and start whisper worker
   async function handleFormSubmission() {
     console.log("handle form submission INTO");
-
-    // if (!file && !audioStream) {
-    //   return;
-    // }
 
     let audio = await readAudioFrom(file ? file : audioStream);
     const model_name = "openai/whisper-tiny.en";
@@ -87,7 +100,10 @@ function App() {
       audio,
       model_name,
     });
+    console.log("Pass the model information for the whisper worker");
   }
+
+
 
   function printConsole() {
     console.log("Here the function is working");

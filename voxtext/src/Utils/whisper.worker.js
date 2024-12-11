@@ -6,18 +6,24 @@ class MyTranscriptionPipeline {
   static task = "automatic-speech-recognition"; // getting AutomaticSpeechRecognitionPipeline
   static model = "openai/whisper-tiny.en";
   static instance = null;
-
   //fin
   static async getInstance(progress_callback = null) {
     //using singleton pattern create pipeLine instance. For increase effececy
+    console.log("INTO pipe creation");
     if (this.instance === null) {
       this.instance = await pipeline(this.task, null, { progress_callback });
     }
-
+    console.log("creating new instance without model specification");
     return this.instance;
   }
+
 }
 
+let x=0;
+
+
+
+// 1
 self.addEventListener("message", async (event) => {
   //Web Worker
   const { type, audio } = event.data;
@@ -27,18 +33,36 @@ self.addEventListener("message", async (event) => {
   }
 });
 
+function sendLoadingMessage(status) {
+  self.postMessage({
+    type: MessageTypes.LOADING,
+    status,
+  });
+}
+
+//creating success msg
+function sendSuccessMessage(status) {
+  self.postMessage({
+    type: MessageTypes.SUCCESS,
+    status,
+  });
+}
+
+
 async function transcribe(audio) {
   sendLoadingMessage("loading"); // send loading message to the app for recongnition
 
   let pipeline;
 
   try {
-    pipeline = await MyTranscriptionPipeline.getInstance(load_model_callback);
+    console.log("INTO trascribe pipe")
+    pipeline = await MyTranscriptionPipeline.getInstance(load_model_callback); //----------------------------
+    console.log("Taken down the pipline downloading");
   } catch (err) {
     console.log(err.message);
   }
 
-  sendLoadingMessage("success");
+  sendSuccessMessage("success");
 
   const stride_length_s = 5;
 
@@ -55,8 +79,11 @@ async function transcribe(audio) {
   });
   generationTracker.sendFinalResult();
 }
-//fin
-async function load_model_callback(data) {
+
+
+
+
+async function load_model_callback(data) { //what is the data?
   const { status } = data;
   if (status === "progress") {
     const { file, progress, loaded, total } = data;
@@ -64,15 +91,7 @@ async function load_model_callback(data) {
   }
 }
 
-//fin
-function sendLoadingMessage(status) {
-  self.postMessage({
-    type: MessageTypes.LOADING,
-    status,
-  });
-}
 
-//fin
 async function sendDownloadingMessage(file, progress, loaded, total) {
   self.postMessage({
     type: MessageTypes.DOWNLOADING,
@@ -80,8 +99,12 @@ async function sendDownloadingMessage(file, progress, loaded, total) {
     progress,
     loaded,
     total,
-  });
+   
+  },
+  console.log("Download Count: "+ x++ )
+);
 }
+//----------------------------------------------------------------------------------------------------------------------------------------
 
 class GenerationTracker {
   constructor(pipeline, stride_length_s) {
@@ -95,9 +118,9 @@ class GenerationTracker {
     this.callbackFunctionCounter = 0;
   }
 
-  //fin
+  
   sendFinalResult() {
-    self.postMessage({ type: MessageTypes.INFERENCE_DONE });
+    self.postMessage({ type: MessageTypes.INFERENCE_DONE }); // out
   }
 
   //fin
@@ -163,6 +186,11 @@ class GenerationTracker {
   }
 }
 
+
+
+
+
+//--------------------------------------------------------------------------------------------------------------------------
 //fin
 function createResultMessage(results, isDone, completedUntilTimestamp) {
   self.postMessage({
