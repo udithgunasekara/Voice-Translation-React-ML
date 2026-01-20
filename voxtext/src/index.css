@@ -56,7 +56,7 @@ h1,h2,h3, .bold{
      
   }
   
-  .angled-leeft {
+  .angled-left {
     
     clip-path: polygon(2% 0, 100% 0, 100% 100%, 0 100%);
   }

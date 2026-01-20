@@ -13,7 +13,7 @@ export default function Header() {
         </div>
       </a>
 
-      <div className="flex-1 h-full flex items-center justify-end mr-9 angled-left">
+      <div className="flex-1 h-full flex items-center justify-end pr-9 angled-left">
         <a
           href="https://github.com/udithgunasekara/Voice-Translation-React-ML/tree/main/voxtext"
           target="_blank"
